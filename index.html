@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tasneem Siddiqui — Developer</title>
+    <meta name="description" content="Portfolio of Tasneem Siddiqui — Front-End Developer, Programmer and Android Developer.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --accent-color: #C65D3B;
+            --accent-dark: #9E4025;
+            --ink: #171717;
+            --paper: #F3F0E9;
+            --paper-dark: #E7E2D8;
+            --muted: #77736C;
+            --line: rgba(23, 23, 23, 0.16);
+            --white: #FFFFFF;
+            --serif: "Playfair Display", Georgia, serif;
+            --sans: "DM Sans", Arial, sans-serif;
+            --mono: "DM Mono", monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--paper);
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            overflow-x: hidden;
+            cursor: none !important;
+        }
+
+        body,
+        a,
+        button {
+            cursor: none !important;
+        }
+
+        ::selection {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* =========================
+           CUSTOM CURSOR
+        ========================= */
+
+        .cursor {
+            position: fixed;
+            width: 13px;
+            height: 13px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: multiply;
+            transition:
+                width 0.25s ease,
+                height 0.25s ease,
+                background 0.25s ease,
+                border 0.25s ease;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--ink);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            opacity: 0.55;
+        }
+
+        .cursor.active {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            opacity: 0.75;
+        }
+
+        .cursor-ring.active {
+            opacity: 0;
+        }
+
+        /* =========================
+           GRAIN
+        ========================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.5'/%3E%3C/svg%3E");
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 78px;
+            padding: 0 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            mix-blend-mode: normal;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(243, 240, 233, 0.92);
+            backdrop-filter: blur(12px);
+            border-color: var(--line);
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        .container {
+            width: min(1200px, 90vw);
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--accent-color);
+        }
+
+        section {
+            padding: 130px 0;
+        }
+
+        .section-heading {
+            display: grid;
+            grid-template-columns: 0.8fr 2fr;
+            gap: 40px;
+            margin-bottom: 75px;
+        }
+
+        .section-number {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent-color);
+        }
+
+        .section-heading h2 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(3rem, 7vw, 6.8rem);
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+        }
+
+        .section-heading h2 em {
+            font-weight: 500;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5vw;
+            align-items: center;
+        }
+
+        .hero-kicker {
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(4rem, 9vw, 9rem);
+            line-height: 0.82;
+            letter-spacing: -0.07em;
+            font-weight: 500;
+            margin-left: -7px;
+        }
+
+        .hero-title .italic {
+            font-style: italic;
+            color: var(--accent-color);
+        }
+
+        .hero-description {
+            margin-top: 42px;
+            max-width: 460px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .circle-link {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transition: all 0.35s ease;
+        }
+
+        .circle-link:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 620px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-frame {
+            width: min(430px, 70%);
+            aspect-ratio: 0.76;
+            border: 1px solid var(--ink);
+            position: relative;
+            transform: rotate(4deg);
+            overflow: hidden;
+            background: var(--paper-dark);
+        }
+
+        .hero-frame::before {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border: 1px solid var(--line);
+            z-index: 2;
+        }
+
+        .github-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.7s ease, transform 0.7s ease;
+        }
+
+        .hero-frame:hover .github-photo {
+            filter: grayscale(0%);
+            transform: scale(1.04);
+        }
+
+        .hero-frame-label {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 3;
+            color: white;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            background: var(--ink);
+            padding: 10px 13px;
+        }
+
+        .hero-side-text {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: rotate(90deg) translateX(50%);
+            transform-origin: right;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 5vw;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .scroll-line {
+            width: 50px;
+            height: 1px;
+            background: var(--ink);
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            border-top: 1px solid var(--line);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.6fr;
+            gap: 8vw;
+        }
+
+        .about-large {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 4rem);
+            line-height: 1.15;
+            letter-spacing: -0.035em;
+        }
+
+        .about-large span {
+            color: var(--accent-color);
+        }
+
+        .about-copy {
+            color: var(--muted);
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .skills {
+            margin-top: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .skill {
+            border: 1px solid var(--line);
+            padding: 9px 13px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            transition: 0.3s ease;
+        }
+
+        .skill:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* =========================
+           GITHUB
+        ========================= */
+
+        .github-section {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .github-section .eyebrow {
+            color: #999;
+        }
+
+        .github-section .section-heading h2 {
+            color: var(--paper);
+        }
+
+        .github-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 70px;
+        }
+
+        .github-stat {
+            padding: 35px 25px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .github-stat:last-child {
+            border-right: none;
+        }
+
+        .github-stat-value {
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            line-height: 1;
+            color: var(--accent-color);
+        }
+
+        .github-stat-label {
+            margin-top: 12px;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .repos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .repo-card {
+            background: var(--ink);
+            min-height: 270px;
+            padding: 35px;
+            position: relative;
+            transition: background 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .repo-card:hover {
+            background: #242424;
+        }
+
+        .repo-index {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: #777;
+        }
+
+        .repo-card h3 {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-weight: 500;
+            margin: 35px 0 15px;
+        }
+
+        .repo-description {
+            color: #999;
+            line-height: 1.6;
+            font-size: 0.85rem;
+            max-width: 500px;
+        }
+
+        .repo-meta {
+            position: absolute;
+            bottom: 30px;
+            left: 35px;
+            right: 35px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .repo-meta span:first-child {
+            color: var(--accent-color);
+        }
+
+        .github-profile {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .github-profile a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--mono);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .service-list {
+            border-top: 1px solid var(--line);
+        }
+
+        .service {
+            display: grid;
+            grid-template-columns: 0.3fr 1.4fr 1fr;
+            gap: 30px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--line);
+            align-items: center;
+            transition: padding 0.35s ease;
+        }
+
+        .service:hover {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .service-number {
+            font-family: var(--mono);
+            color: var(--accent-color);
+            font-size: 0.7rem;
+        }
+
+        .service h3 {
+            font-family: var(--serif);
+            font-size: 2.3rem;
+            font-weight: 500;
+        }
+
+        .service p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-inner {
+            width: 100%;
+        }
+
+        .contact-title {
+            font-family: var(--serif);
+            font-size: clamp(4rem, 10vw, 10rem);
+            line-height: 0.82;
+            letter-spacing: -0.07em;
+            font-weight: 500;
+            max-width: 1000px;
+        }
+
+        .contact-title em {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .contact-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 70px;
+            padding-top: 25px;
+            border-top: 1px solid var(--line);
+        }
+
+        .contact-email {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+        }
+
+        .contact-socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-socials a {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .contact-socials a:hover {
+            color: var(--accent-color);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 30px 5vw;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 999999;
+            color: var(--paper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-text {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 8vw, 8rem);
+            overflow: hidden;
+        }
+
+        .loader-text span {
+            display: inline-block;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                height: 500px;
+            }
+
+            .hero-frame {
+                width: 330px;
+            }
+
+            .section-heading {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .service {
+                grid-template-columns: 0.2fr 1fr;
+            }
+
+            .service p {
+                grid-column: 2;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                height: 65px;
+                padding: 0 5vw;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 90px 0;
+            }
+
+            .hero {
+                padding-top: 90px;
+            }
+
+            .hero-title {
+                font-size: clamp(4rem, 20vw, 7rem);
+            }
+
+            .hero-description {
+                font-size: 0.9rem;
+            }
+
+            .hero-visual {
+                height: 390px;
+            }
+
+            .hero-frame {
+                width: 260px;
+            }
+
+            .hero-side-text {
+                display: none;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+
+            .section-heading h2 {
+                font-size: clamp(3rem, 16vw, 5rem);
+            }
+
+            .github-top {
+                grid-template-columns: 1fr;
+            }
+
+            .github-stat {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+
+            .github-stat:last-child {
+                border-bottom: none;
+            }
+
+            .repos {
+                grid-template-columns: 1fr;
+            }
+
+            .repo-card {
+                min-height: 300px;
+            }
+
+            .service {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .service p {
+                grid-column: 1;
+            }
+
+            .service h3 {
+                font-size: 2rem;
+            }
+
+            .contact-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (pointer: coarse) {
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+
+            body,
+            a,
+            button {
+                cursor: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         LOADER
+    ========================== -->
+
+    <div class="loader">
+        <div class="loader-text">
+            <span>T.</span>
+        </div>
+    </div>
+
+    <!-- =========================
+         CUSTOM CURSOR
+    ========================== -->
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav id="navbar">
+        <a href="#home" class="logo">Tasneem<span>.</span></a>
+
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#work">GitHub</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="container hero-grid">
+
+                <div class="hero-copy">
+
+                    <div class="eyebrow hero-kicker">
+                        Developer / Creator
+                    </div>
+
+                    <h1 class="hero-title">
+                        Tasneem<br>
+                        <span class="italic">Siddiqui</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A developer interested in building thoughtful digital
+                        experiences through clean code, modern interfaces and
+                        practical software solutions.
+                    </p>
+
+                    <div class="hero-links">
+                        <a href="https://github.com/Tasneem-bit"
+                           target="_blank"
+                           rel="noopener"
+                           class="circle-link magnetic">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/tasneem-siddiqui-a30005270"
+                           target="_blank"
+                           rel="noopener"
+                           class="circle-link magnetic">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+
+                    <div class="hero-frame">
+                        <img
+                            id="profileImage"
+                            class="github-photo"
+                            src="https://github.com/Tasneem-bit.png"
+                            alt="Tasneem Siddiqui GitHub profile"
+                        >
+
+                        <div class="hero-frame-label">
+                            Available to build
+                        </div>
+                    </div>
+
+                    <div class="hero-side-text">
+                        Code / Design / Development
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                Scroll to explore
+            </div>
+
+        </section>
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section class="about" id="about">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <span class="section-number">01 — About</span>
+
+                    <h2>
+                        Building things<br>
+                        <em>with code.</em>
+                    </h2>
+                </div>
+
+                <div class="about-grid">
+
+                    <div class="about-large reveal">
+                        I work across the space between
+                        <span>technology</span>, design and problem solving.
+                    </div>
+
+                    <div class="about-copy reveal">
+
+                        <p>
+                            I'm Tasneem, a developer focused on creating
+                            functional and visually engaging digital products.
+                            My interests span front-end development, programming,
+                            databases and Android development.
+                        </p>
+
+                        <br>
+
+                        <p>
+                            I enjoy understanding how things work underneath
+                            the interface and then turning that understanding
+                            into simple, useful experiences.
+                        </p>
+
+                        <div class="skills">
+                            <span class="skill">HTML</span>
+                            <span class="skill">CSS</span>
+                            <span class="skill">JavaScript</span>
+                            <span class="skill">Python</span>
+                            <span class="skill">SQL</span>
+                            <span class="skill">Frontend</span>
+                            <span class="skill">Android</span>
+                            <span class="skill">Git</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             GITHUB
+        ========================== -->
+
+        <section class="github-section" id="work">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <span class="section-number">
+                        02 — Selected Work
+                    </span>
+
+                    <h2>
+                        Open source,<br>
+                        <em>in public.</em>
+                    </h2>
+
+                </div>
+
+                <div class="github-top">
+
+                    <div class="github-stat reveal">
+                        <div class="github-stat-value" id="repoCount">—</div>
+                        <div class="github-stat-label">
+                            Public repositories
+                        </div>
+                    </div>
+
+                    <div class="github-stat reveal">
+                        <div class="github-stat-value" id="followers">—</div>
+                        <div class="github-stat-label">
+                            Followers
+                        </div>
+                    </div>
+
+                    <div class="github-stat reveal">
+                        <div class="github-stat-value" id="stars">—</div>
+                        <div class="github-stat-label">
+                            Repository stars
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="repos" id="reposContainer">
+
+                    <article class="repo-card">
+                        <span class="repo-index">Loading...</span>
+                        <h3>Fetching repositories</h3>
+                        <p class="repo-description">
+                            Connecting to GitHub.
+                        </p>
+                    </article>
+
+                </div>
+
+                <div class="github-profile reveal">
+                    <a href="https://github.com/Tasneem-bit"
+                       target="_blank"
+                       rel="noopener">
+                        View full GitHub profile
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             SKILLS / SERVICES
+        ========================== -->
+
+        <section class="services" id="skills">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+                    <span class="section-number">03 — Expertise</span>
+
+                    <h2>
+                        What I<br>
+                        <em>work with.</em>
+                    </h2>
+                </div>
+
+                <div class="service-list">
+
+                    <div class="service reveal">
+                        <span class="service-number">01</span>
+
+                        <h3>Front-End Development</h3>
+
+                        <p>
+                            Responsive interfaces using HTML, CSS and
+                            JavaScript with attention to interaction,
+                            typography and visual hierarchy.
+                        </p>
+                    </div>
+
+                    <div class="service reveal">
+                        <span class="service-number">02</span>
+
+                        <h3>Programming</h3>
+
+                        <p>
+                            Problem solving and application development using
+                            Python and JavaScript with a focus on readable,
+                            maintainable code.
+                        </p>
+                    </div>
+
+                    <div class="service reveal">
+                        <span class="service-number">03</span>
+
+                        <h3>Database & SQL</h3>
+
+                        <p>
+                            Designing, querying and working with relational
+                            databases using SQL and structured data models.
+                        </p>
+                    </div>
+
+                    <div class="service reveal">
+                        <span class="service-number">04</span>
+
+                        <h3>Android Development</h3>
+
+                        <p>
+                            Building mobile applications and exploring the
+                            interaction between interfaces, application logic
+                            and backend services.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section class="contact" id="contact">
+
+            <div class="container contact-inner">
+
+                <div class="eyebrow reveal">
+                    04 — Contact
+                </div>
+
+                <h2 class="contact-title reveal">
+                    Let's make<br>
+                    something <em>great.</em>
+                </h2>
+
+                <div class="contact-bottom">
+
+                    <div class="contact-email">
+                        <a href="https://github.com/Tasneem-bit"
+                           target="_blank"
+                           rel="noopener">
+                            github.com/Tasneem-bit
+                        </a>
+                    </div>
+
+                    <div class="contact-socials">
+
+                        <a href="https://github.com/Tasneem-bit"
+                           target="_blank"
+                           rel="noopener">
+                            GitHub
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/tasneem-siddiqui-a30005270"
+                           target="_blank"
+                           rel="noopener">
+                            LinkedIn
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+        <span>© 2026 Tasneem Siddiqui</span>
+        <span>Designed & Built with Code</span>
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        /* =========================================
+           CONFIGURATION
+        ========================================= */
+
+        const GITHUB_USERNAME = "Tasneem-bit";
+
+        /* =========================================
+           REGISTER GSAP
+        ========================================= */
+
+        gsap.registerPlugin(ScrollTrigger);
+
+
+        /* =========================================
+           CUSTOM CURSOR
+        ========================================= */
+
+        const cursor = document.querySelector(".cursor");
+        const cursorRing = document.querySelector(".cursor-ring");
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        let ringX = mouseX;
+        let ringY = mouseY;
+
+        window.addEventListener("mousemove", (e) => {
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursor.style.left = mouseX + "px";
+            cursor.style.top = mouseY + "px";
+
+        });
+
+        function animateCursor() {
+
+            ringX += (mouseX - ringX) * 0.12;
+            ringY += (mouseY - ringY) * 0.12;
+
+            cursorRing.style.left = ringX + "px";
+            cursorRing.style.top = ringY + "px";
+
+            requestAnimationFrame(animateCursor);
+        }
+
+        animateCursor();
+
+
+        /* Cursor hover states */
+
+        function setupCursorHover() {
+
+            const clickableElements =
+                document.querySelectorAll("a, button, .repo-card, .skill");
+
+            clickableElements.forEach((element) => {
+
+                element.addEventListener("mouseenter", () => {
+                    cursor.classList.add("active");
+                    cursorRing.classList.add("active");
+                });
+
+                element.addEventListener("mouseleave", () => {
+                    cursor.classList.remove("active");
+                    cursorRing.classList.remove("active");
+                });
+
+            });
+
+        }
+
+        setupCursorHover();
+
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
+        const navbar = document.getElementById("navbar");
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+
+        });
+
+
+        /* =========================================
+           PAGE LOADER
+        ========================================= */
+
+        const loader = document.querySelector(".loader");
+
+        const loaderTimeline = gsap.timeline();
+
+        loaderTimeline
+            .from(".loader-text span", {
+                yPercent: 120,
+                duration: 0.8,
+                ease: "power4.out"
+            })
+            .to(".loader", {
+                yPercent: -100,
+                duration: 1.1,
+                delay: 0.35,
+                ease: "power4.inOut"
+            });
+
+
+        /* =========================================
+           HERO ANIMATION
+        ========================================= */
+
+        const heroTimeline = gsap.timeline({
+            delay: 1.25
+        });
+
+        heroTimeline
+            .from(".hero-kicker", {
+                opacity: 0,
+                y: 30,
+                duration: 0.7,
+                ease: "power3.out"
+            })
+            .from(".hero-title", {
+                opacity: 0,
+                y: 80,
+                duration: 1.1,
+                ease: "power4.out"
+            }, "-=0.35")
+            .from(".hero-description", {
+                opacity: 0,
+                y: 30,
+                duration: 0.7
+            }, "-=0.5")
+            .from(".hero-links", {
+                opacity: 0,
+                y: 20,
+                duration: 0.5
+            }, "-=0.3")
+            .from(".hero-frame", {
+                opacity: 0,
+                scale: 0.85,
+                rotation: -3,
+                duration: 1.2,
+                ease: "power4.out"
+            }, "-=0.9");
+
+
+        /* =========================================
+           SCROLL REVEALS
+        ========================================= */
+
+        gsap.utils.toArray(".reveal").forEach((element) => {
+
+            gsap.from(element, {
+
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 88%",
+                    toggleActions: "play none none reverse"
+                },
+
+                opacity: 0,
+                y: 50,
+                duration: 0.9,
+                ease: "power3.out"
+
+            });
+
+        });
+
+
+        /* =========================================
+           GITHUB API
+        ========================================= */
+
+        async function fetchGitHubData() {
+
+            const userURL =
+                `https://api.github.com/users/${GITHUB_USERNAME}`;
+
+            const reposURL =
+                `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`;
+
+            try {
+
+                const [userResponse, reposResponse] =
+                    await Promise.all([
+                        fetch(userURL),
+                        fetch(reposURL)
+                    ]);
+
+                if (!userResponse.ok || !reposResponse.ok) {
+                    throw new Error("GitHub API request failed.");
+                }
+
+                const user = await userResponse.json();
+                const repositories = await reposResponse.json();
+
+
+                /* Profile */
+
+                if (user.avatar_url) {
+
+                    document.getElementById("profileImage").src =
+                        user.avatar_url;
+
+                }
+
+
+                /* Statistics */
+
+                document.getElementById("repoCount").textContent =
+                    user.public_repos;
+
+                document.getElementById("followers").textContent =
+                    user.followers;
+
+
+                const totalStars = repositories.reduce(
+                    (total, repo) => total + repo.stargazers_count,
+                    0
+                );
+
+                document.getElementById("stars").textContent =
+                    totalStars;
+
+
+                /* Sort repositories by stars */
+
+                const sortedRepos = repositories
+                    .filter(repo => !repo.fork)
+                    .sort(
+                        (a, b) =>
+                            b.stargazers_count -
+                            a.stargazers_count
+                    )
+                    .slice(0, 6);
+
+
+                renderRepositories(sortedRepos);
+
+            } catch (error) {
+
+                console.error("GitHub error:", error);
+
+                document.getElementById("reposContainer").innerHTML = `
+
+                    <article class="repo-card">
+
+                        <span class="repo-index">
+                            GitHub
+                        </span>
+
+                        <h3>
+                            Unable to load
+                        </h3>
+
+                        <p class="repo-description">
+                            GitHub's API could not be reached.
+                            Visit the profile directly to explore the projects.
+                        </p>
+
+                        <div class="repo-meta">
+                            <span>View Profile</span>
+                            <span>github.com/Tasneem-bit</span>
+                        </div>
+
+                    </article>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================================
+           RENDER REPOSITORIES
+        ========================================= */
+
+        function renderRepositories(repositories) {
+
+            const container =
+                document.getElementById("reposContainer");
+
+            if (!repositories.length) {
+
+                container.innerHTML = `
+
+                    <article class="repo-card">
+
+                        <span class="repo-index">
+                            GitHub
+                        </span>
+
+                        <h3>
+                            Projects coming soon.
+                        </h3>
+
+                        <p class="repo-description">
+                            No public repositories are currently available.
+                        </p>
+
+                    </article>
+
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = repositories
+                .map((repo, index) => {
+
+                    const language =
+                        repo.language || "Code";
+
+                    const description =
+                        repo.description ||
+                        "An open-source project by Tasneem Siddiqui.";
+
+                    return `
+
+                        <article
+                            class="repo-card tilt-card"
+                            data-url="${repo.html_url}"
+                        >
+
+                            <span class="repo-index">
+                                0${index + 1}
+                            </span>
+
+                            <h3>
+                                ${escapeHTML(repo.name)}
+                            </h3>
+
+                            <p class="repo-description">
+                                ${escapeHTML(description)}
+                            </p>
+
+                            <div class="repo-meta">
+
+                                <span>
+                                    ${escapeHTML(language)}
+                                </span>
+
+                                <span>
+                                    ★ ${repo.stargazers_count}
+                                    &nbsp;&nbsp;
+                                    ${repo.forks_count} forks
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                })
+                .join("");
+
+
+            /* Repository links */
+
+            document
+                .querySelectorAll(".repo-card[data-url]")
+                .forEach(card => {
+
+                    card.addEventListener("click", () => {
+
+                        window.open(
+                            card.dataset.url,
+                            "_blank",
+                            "noopener"
+                        );
+
+                    });
+
+                });
+
+
+            setupTiltCards();
+            setupCursorHover();
+
+
+            /* Animate repository cards */
+
+            gsap.from(".repo-card", {
+
+                scrollTrigger: {
+                    trigger: ".repos",
+                    start: "top 85%"
+                },
+
+                opacity: 0,
+                y: 60,
+                stagger: 0.12,
+                duration: 0.8,
+                ease: "power3.out"
+
+            });
+
+        }
+
+
+        /* =========================================
+           HTML ESCAPING
+        ========================================= */
+
+        function escapeHTML(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================
+           3D PROJECT TILT
+        ========================================= */
+
+        function setupTiltCards() {
+
+            const cards =
+                document.querySelectorAll(".tilt-card");
+
+            cards.forEach(card => {
+
+                card.addEventListener("mousemove", (event) => {
+
+                    const rect =
+                        card.getBoundingClientRect();
+
+                    const x =
+                        event.clientX - rect.left;
+
+                    const y =
+                        event.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX =
+                        ((y - centerY) / centerY) * -5;
+
+                    const rotateY =
+                        ((x - centerX) / centerX) * 5;
+
+                    card.style.transform =
+                        `perspective(900px)
+                         rotateX(${rotateX}deg)
+                         rotateY(${rotateY}deg)
+                         translateZ(8px)`;
+
+                });
+
+
+                card.addEventListener("mouseleave", () => {
+
+                    card.style.transform =
+                        "perspective(900px) rotateX(0deg) rotateY(0deg)";
+
+                });
+
+            });
+
+        }
+
+
+        /* =========================================
+           MAGNETIC BUTTONS
+        ========================================= */
+
+        document
+            .querySelectorAll(".magnetic")
+            .forEach(button => {
+
+                button.addEventListener("mousemove", (event) => {
+
+                    const rect =
+                        button.getBoundingClientRect();
+
+                    const x =
+                        event.clientX - rect.left - rect.width / 2;
+
+                    const y =
+                        event.clientY - rect.top - rect.height / 2;
+
+                    gsap.to(button, {
+                        x: x * 0.25,
+                        y: y * 0.25,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+
+                });
+
+
+                button.addEventListener("mouseleave", () => {
+
+                    gsap.to(button, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    });
+
+                });
+
+            });
+
+
+        /* =========================================
+           IMAGE PARALLAX
+        ========================================= */
+
+        gsap.to(".hero-frame", {
+
+            y: -80,
+
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1
+            }
+
+        });
+
+
+        /* =========================================
+           INITIALIZE GITHUB
+        ========================================= */
+
+        fetchGitHubData();
+
+    </script>
+
+</body>
+</html>
